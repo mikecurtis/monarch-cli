@@ -3,6 +3,7 @@
 import { Command } from 'commander';
 import * as fs from 'fs';
 import * as path from 'path';
+import { commandSchemas, CommandSchema, ParameterSchema } from './command-schemas.js';
 import {
   setToken,
   getAccounts,
@@ -37,6 +38,58 @@ const log = (message: string) => {
 const error = (message: string): never => {
   console.error(`Error: ${message}`);
   process.exit(1);
+};
+
+// Format schema information for display in help
+const formatSchemaHelp = (commandName: string): string => {
+  const schema = commandSchemas[commandName];
+  if (!schema) return '';
+
+  let helpText = '';
+
+  // Add description
+  if (schema.description) {
+    helpText += `\nDescription:\n  ${schema.description}\n`;
+  }
+
+  // Add parameters section
+  if (schema.parameters && Object.keys(schema.parameters).length > 0) {
+    helpText += '\nInput Schema (JSON format):\n';
+    helpText += '  Parameters:\n';
+    
+    for (const [paramName, param] of Object.entries(schema.parameters)) {
+      const paramSchema = param as ParameterSchema;
+      helpText += `    ${paramName}:\n`;
+      helpText += `      Type: ${paramSchema.type}${paramSchema.required ? ' (required)' : ' (optional)'}\n`;
+      helpText += `      Description: ${paramSchema.description}\n`;
+      
+      if (paramSchema.default !== undefined) {
+        helpText += `      Default: ${JSON.stringify(paramSchema.default)}\n`;
+      }
+      
+      if (paramSchema.enum) {
+        helpText += `      Allowed values: ${paramSchema.enum.join(', ')}\n`;
+      }
+      
+      if (paramSchema.example !== undefined) {
+        helpText += `      Example: ${JSON.stringify(paramSchema.example)}\n`;
+      }
+      
+      helpText += '\n';
+    }
+  } else {
+    helpText += '\nInput Schema: No parameters required\n';
+  }
+
+  // Add examples section
+  if (schema.examples && schema.examples.length > 0) {
+    helpText += 'Examples:\n';
+    for (const example of schema.examples) {
+      helpText += `  ${example}\n`;
+    }
+  }
+
+  return helpText;
 };
 
 const readInput = (filePath: string): any => {
@@ -110,11 +163,19 @@ program
   .description('CLI for Monarch Money API queries')
   .version('1.0.0');
 
-// Add global options to each command
+// Add global options to each command and enhance help with schema information
 const addCommonOptions = (cmd: Command): Command => {
-  return cmd
+  const enhancedCmd = cmd
     .option('-i, --input <file>', 'JSON file with parameters for the API call')
     .option('-o, --output <file>', 'Output file for JSON response (stdout if not specified)');
+
+  // Override the help output to include schema information
+  enhancedCmd.addHelpText('after', () => {
+    const commandName = cmd.name();
+    return formatSchemaHelp(commandName);
+  });
+
+  return enhancedCmd;
 };
 
 // Define all query commands
