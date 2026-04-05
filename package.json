@@ -1,0 +1,20 @@
+{
+  "name": "monarchcli",
+  "version": "1.0.0",
+  "type": "module",
+  "bin": {
+    "monarch-cli": "./src/cli.ts"
+  },
+  "scripts": {
+    "start": "tsx src/cli.ts"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "monarch-money-api": "^0.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.15.0",
+    "typescript": "^5.5.0"
+  }
+}
