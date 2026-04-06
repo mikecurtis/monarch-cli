@@ -16,13 +16,13 @@ importers:
         version: 0.0.7(graphql@16.13.2)
     devDependencies:
       '@types/node':
-        specifier: ^20.14.0
+        specifier: ^20.19.39
         version: 20.19.39
       tsx:
-        specifier: ^4.15.0
+        specifier: ^4.21.0
         version: 4.21.0
       typescript:
-        specifier: ^5.5.0
+        specifier: ^5.9.3
         version: 5.9.3
 
 packages:
