@@ -1,6 +1,6 @@
 {
   "name": "monarch-money-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Command line interface for Monarch Money API - manage accounts, transactions, budgets, and cashflow",
   "type": "module",
   "main": "./dist/cli.js",
