@@ -1,13 +1,44 @@
 {
-  "name": "monarchcli",
+  "name": "monarch-money-cli",
   "version": "1.0.0",
+  "description": "Command line interface for Monarch Money API - manage accounts, transactions, budgets, and cashflow",
   "type": "module",
+  "main": "./dist/cli.js",
   "bin": {
-    "monarch-cli": "./src/cli.ts"
+    "monarch-cli": "dist/cli.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
-    "start": "tsx src/cli.ts"
+    "build": "tsc",
+    "start": "tsx src/cli.ts",
+    "prepublishOnly": "npm run build"
   },
+  "keywords": [
+    "monarch",
+    "monarch-money",
+    "cli",
+    "finance",
+    "budget",
+    "transactions",
+    "accounts",
+    "personal-finance"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/monarch-money-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/monarch-money-cli/issues"
+  },
+  "homepage": "https://github.com/your-username/monarch-money-cli#readme",
   "dependencies": {
     "commander": "^12.1.0",
     "monarch-money-api": "^0.0.7"

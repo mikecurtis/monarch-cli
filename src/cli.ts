@@ -1,4 +1,4 @@
-#!/usr/bin/env npx tsx
+#!/usr/bin/env node
 
 import { Command } from 'commander';
 import * as fs from 'fs';
@@ -124,7 +124,7 @@ const executeCommand = async (
   // Check for token only when executing a command
   const token = process.env.MONARCH_TOKEN;
   if (!token) {
-    error('MONARCH_TOKEN environment variable is not set. Please set it before running this CLI.');
+    return error('MONARCH_TOKEN environment variable is not set. Please set it before running this CLI.');
   }
   
   // Set the token for API calls
